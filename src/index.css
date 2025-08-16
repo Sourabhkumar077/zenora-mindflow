@@ -8,35 +8,61 @@ All colors MUST be HSL.
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Base colors */
+    --background: 252 100% 99%;
+    --foreground: 235 15% 22%;
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Card colors */
+    --card: 255 100% 100%;
+    --card-foreground: 235 15% 22%;
 
-    --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    /* Popover colors */
+    --popover: 255 100% 100%;
+    --popover-foreground: 235 15% 22%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    /* Primary - Calming lavender */
+    --primary: 263 85% 70%;
+    --primary-foreground: 255 100% 100%;
+    --primary-light: 263 70% 85%;
+    --primary-dark: 263 95% 55%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    /* Secondary - Soft mint */
+    --secondary: 164 80% 85%;
+    --secondary-foreground: 164 50% 25%;
+    --secondary-light: 164 60% 95%;
+    --secondary-dark: 164 90% 70%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    /* Accent - Sky blue */
+    --accent: 200 85% 80%;
+    --accent-foreground: 200 60% 25%;
+    --accent-light: 200 70% 92%;
+    --accent-dark: 200 95% 65%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Muted colors */
+    --muted: 220 20% 95%;
+    --muted-foreground: 220 10% 45%;
 
-    --destructive: 0 84.2% 60.2%;
+    /* Destructive */
+    --destructive: 0 84% 60%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    /* Border and input */
+    --border: 220 25% 88%;
+    --input: 220 25% 88%;
+    --ring: 263 85% 70%;
 
-    --radius: 0.5rem;
+    /* Radius */
+    --radius: 1rem;
+
+    /* Custom gradients */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--accent-light)) 100%);
+    --gradient-calm: linear-gradient(135deg, hsl(var(--primary-light)) 0%, hsl(var(--secondary-light)) 50%, hsl(var(--accent-light)) 100%);
+    
+    /* Shadows */
+    --shadow-soft: 0 4px 20px -4px hsl(var(--primary) / 0.15);
+    --shadow-medium: 0 8px 30px -8px hsl(var(--primary) / 0.2);
+    --shadow-strong: 0 15px 50px -12px hsl(var(--primary) / 0.25);
 
     --sidebar-background: 0 0% 98%;
 
@@ -56,41 +82,67 @@ All colors MUST be HSL.
   }
 
   .dark {
-    --background: 222.2 84% 4.9%;
-    --foreground: 210 40% 98%;
+    /* Base colors - Dark theme */
+    --background: 235 25% 8%;
+    --foreground: 252 85% 95%;
 
-    --card: 222.2 84% 4.9%;
-    --card-foreground: 210 40% 98%;
+    /* Card colors */
+    --card: 235 20% 12%;
+    --card-foreground: 252 85% 95%;
 
-    --popover: 222.2 84% 4.9%;
-    --popover-foreground: 210 40% 98%;
+    /* Popover colors */
+    --popover: 235 20% 12%;
+    --popover-foreground: 252 85% 95%;
 
-    --primary: 210 40% 98%;
-    --primary-foreground: 222.2 47.4% 11.2%;
+    /* Primary - Darker lavender */
+    --primary: 263 75% 65%;
+    --primary-foreground: 235 25% 8%;
+    --primary-light: 263 60% 75%;
+    --primary-dark: 263 85% 50%;
 
-    --secondary: 217.2 32.6% 17.5%;
-    --secondary-foreground: 210 40% 98%;
+    /* Secondary - Darker mint */
+    --secondary: 164 60% 25%;
+    --secondary-foreground: 164 80% 85%;
+    --secondary-light: 164 40% 35%;
+    --secondary-dark: 164 70% 20%;
 
-    --muted: 217.2 32.6% 17.5%;
-    --muted-foreground: 215 20.2% 65.1%;
+    /* Accent - Darker sky blue */
+    --accent: 200 65% 25%;
+    --accent-foreground: 200 85% 80%;
+    --accent-light: 200 50% 35%;
+    --accent-dark: 200 75% 20%;
 
-    --accent: 217.2 32.6% 17.5%;
-    --accent-foreground: 210 40% 98%;
+    /* Muted colors */
+    --muted: 235 15% 18%;
+    --muted-foreground: 235 8% 65%;
 
-    --destructive: 0 62.8% 30.6%;
+    /* Destructive */
+    --destructive: 0 75% 55%;
     --destructive-foreground: 210 40% 98%;
 
-    --border: 217.2 32.6% 17.5%;
-    --input: 217.2 32.6% 17.5%;
-    --ring: 212.7 26.8% 83.9%;
-    --sidebar-background: 240 5.9% 10%;
-    --sidebar-foreground: 240 4.8% 95.9%;
-    --sidebar-primary: 224.3 76.3% 48%;
-    --sidebar-primary-foreground: 0 0% 100%;
-    --sidebar-accent: 240 3.7% 15.9%;
-    --sidebar-accent-foreground: 240 4.8% 95.9%;
-    --sidebar-border: 240 3.7% 15.9%;
-    --sidebar-ring: 217.2 91.2% 59.8%;
+    /* Border and input */
+    --border: 235 15% 22%;
+    --input: 235 15% 22%;
+    --ring: 263 75% 65%;
+
+    /* Custom gradients - Dark theme */
+    --gradient-primary: linear-gradient(135deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    --gradient-secondary: linear-gradient(135deg, hsl(var(--secondary)) 0%, hsl(var(--accent-light)) 100%);
+    --gradient-calm: linear-gradient(135deg, hsl(var(--primary-light)) 0%, hsl(var(--secondary-light)) 50%, hsl(var(--accent-light)) 100%);
+    
+    /* Shadows - Dark theme */
+    --shadow-soft: 0 4px 20px -4px hsl(0 0% 0% / 0.3);
+    --shadow-medium: 0 8px 30px -8px hsl(0 0% 0% / 0.4);
+    --shadow-strong: 0 15px 50px -12px hsl(0 0% 0% / 0.5);
+
+    --sidebar-background: 235 20% 12%;
+    --sidebar-foreground: 252 85% 95%;
+    --sidebar-primary: 263 75% 65%;
+    --sidebar-primary-foreground: 235 25% 8%;
+    --sidebar-accent: 235 15% 18%;
+    --sidebar-accent-foreground: 252 85% 95%;
+    --sidebar-border: 235 15% 22%;
+    --sidebar-ring: 263 75% 65%;
   }
 }
 
@@ -100,6 +152,45 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground font-inter antialiased;
+    font-feature-settings: "cv02", "cv03", "cv04", "cv11";
+  }
+
+  h1, h2, h3, h4, h5, h6 {
+    @apply font-poppins;
+  }
+}
+
+@layer utilities {
+  .gradient-primary {
+    background: var(--gradient-primary);
+  }
+  
+  .gradient-secondary {
+    background: var(--gradient-secondary);
+  }
+  
+  .gradient-calm {
+    background: var(--gradient-calm);
+  }
+  
+  .shadow-soft {
+    box-shadow: var(--shadow-soft);
+  }
+  
+  .shadow-medium {
+    box-shadow: var(--shadow-medium);
+  }
+  
+  .shadow-strong {
+    box-shadow: var(--shadow-strong);
+  }
+
+  .glass-morphism {
+    @apply backdrop-blur-xl bg-white/10 border border-white/20;
+  }
+  
+  .glass-morphism-dark {
+    @apply backdrop-blur-xl bg-black/10 border border-white/10;
   }
 }
