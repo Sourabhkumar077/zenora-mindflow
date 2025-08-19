@@ -1,11 +1,13 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link , useNavigate} from "react-router-dom";
 import { Eye, EyeOff, Heart, ArrowLeft } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { motion } from "framer-motion";
+import { useAuthStore } from "@/store/auth";
+import { loginUser } from "@/services/api";
 
 const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,10 +15,21 @@ const Login = () => {
     email: "",
     password: "",
   });
+    const navigate = useNavigate();
+  const { login } = useAuthStore()
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // TODO: Implement login logic with JWT
+   try {
+      const response = await loginUser(formData);
+      const userId = response.data.user_id;
+      login(userId);
+      navigate("/dashboard");
+
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
+    }
     console.log("Login attempt:", formData);
   };
 

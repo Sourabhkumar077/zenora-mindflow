@@ -1,3 +1,5 @@
+// src/pages/mood-log.tsx
+
 import { useState } from "react";
 import { DashboardLayout } from "@/components/dashboard-layout";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -6,46 +8,54 @@ import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 import { Heart, Calendar, TrendingUp, Save } from "lucide-react";
 import { Badge } from "@/components/ui/badge";
+import { addMoodLog } from "@/services/api"; 
+import { useAuthStore } from "@/store/auth";
 
 const moodEmojis = [
-  { value: 1, emoji: "😢", label: "Very Sad", color: "text-red-500" },
-  { value: 2, emoji: "😞", label: "Sad", color: "text-red-400" },
-  { value: 3, emoji: "😔", label: "Down", color: "text-orange-400" },
-  { value: 4, emoji: "😐", label: "Okay", color: "text-yellow-400" },
-  { value: 5, emoji: "🙂", label: "Good", color: "text-yellow-500" },
-  { value: 6, emoji: "😊", label: "Happy", color: "text-green-400" },
-  { value: 7, emoji: "😃", label: "Very Happy", color: "text-green-500" },
-  { value: 8, emoji: "😄", label: "Joyful", color: "text-green-600" },
-  { value: 9, emoji: "🤩", label: "Amazing", color: "text-blue-500" },
-  { value: 10, emoji: "🥳", label: "Euphoric", color: "text-purple-500" },
+    { value: 1, emoji: "😢", label: "Very Sad" },
+    { value: 2, emoji: "😞", label: "Sad" },
+    { value: 3, emoji: "😔", label: "Down" },
+    { value: 4, emoji: "😐", label: "Okay" },
+    { value: 5, emoji: "🙂", label: "Good" },
+    { value: 6, emoji: "😊", label: "Happy" },
+    { value: 7, emoji: "😃", label: "Very Happy" },
+    { value: 8, emoji: "😄", label: "Joyful" },
+    { value: 9, emoji: "🤩", label: "Amazing" },
+    { value: 10, emoji: "🥳", label: "Euphoric" },
 ];
 
 export default function MoodLog() {
   const [selectedMood, setSelectedMood] = useState<number | null>(null);
   const [notes, setNotes] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const { userId } = useAuthStore();
 
-  // Mock past week data
-  const pastWeekMoods = [
-    { date: "Mon", mood: 7, emoji: "😃" },
-    { date: "Tue", mood: 6, emoji: "😊" },
-    { date: "Wed", mood: 8, emoji: "😄" },
-    { date: "Thu", mood: 7, emoji: "😃" },
-    { date: "Fri", mood: 9, emoji: "🤩" },
-    { date: "Sat", mood: 8, emoji: "😄" },
-    { date: "Sun", mood: null, emoji: "?" },
-  ];
-
+  // UPDATED: Is function ko API se connect kiya gaya hai
   const handleSubmit = async () => {
     if (!selectedMood) return;
     
     setIsSubmitting(true);
-    // API call placeholder
-    setTimeout(() => {
+
+    const selectedMoodData = moodEmojis.find(m => m.value === selectedMood);
+
+    const moodLogData = {
+      user_id: userId, 
+      mood: selectedMoodData?.label || 'Okay', 
+      note: notes,
+    };
+
+    try {
+      const response = await addMoodLog(moodLogData);
+      console.log("Mood successfully logged:", response.data);
+      alert("Mood logged successfully!");
+      setSelectedMood(null);
+      setNotes("");
+    } catch (error) {
+      console.error("Error logging mood:", error);
+      alert("Failed to log mood. Please try again.");
+    } finally {
       setIsSubmitting(false);
-      // Reset form or show success message
-      console.log("Mood logged:", { mood: selectedMood, notes });
-    }, 1000);
+    }
   };
 
   const selectedMoodData = moodEmojis.find(m => m.value === selectedMood);
@@ -90,7 +100,6 @@ export default function MoodLog() {
                 </button>
               ))}
             </div>
-
             {selectedMoodData && (
               <div className="text-center p-4 rounded-lg bg-muted/30 animate-fade-in">
                 <div className="text-4xl mb-2">{selectedMoodData.emoji}</div>
@@ -132,50 +141,6 @@ export default function MoodLog() {
             {isSubmitting ? "Saving..." : "Log My Mood"}
           </Button>
         </div>
-
-        {/* Past Week Overview */}
-        <Card className="border-0 shadow-soft">
-          <CardHeader>
-            <CardTitle className="flex items-center gap-2">
-              <TrendingUp className="w-5 h-5 text-accent" />
-              This Week's Moods
-            </CardTitle>
-          </CardHeader>
-          <CardContent>
-            <div className="grid grid-cols-7 gap-3">
-              {pastWeekMoods.map((day, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-sm text-muted-foreground mb-2">{day.date}</div>
-                  <div className={`
-                    w-12 h-12 mx-auto rounded-full border-2 flex items-center justify-center text-lg
-                    ${day.mood 
-                      ? 'border-primary bg-primary/10' 
-                      : 'border-dashed border-muted-foreground bg-muted/30'
-                    }
-                  `}>
-                    {day.emoji}
-                  </div>
-                  {day.mood && (
-                    <div className="text-xs text-muted-foreground mt-1">
-                      {day.mood}/10
-                    </div>
-                  )}
-                </div>
-              ))}
-            </div>
-            
-            <div className="mt-6 p-4 rounded-lg bg-accent-light/30">
-              <div className="flex items-center gap-2 text-accent-foreground">
-                <Calendar className="w-4 h-4" />
-                <span className="font-medium">Week Summary:</span>
-              </div>
-              <p className="text-sm text-accent-foreground/80 mt-1">
-                Your average mood this week is 7.2/10 - You're doing great! 
-                Keep tracking to maintain this positive trend.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
       </div>
     </DashboardLayout>
   );

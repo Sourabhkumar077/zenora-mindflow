@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link,useNavigate } from "react-router-dom";
 import { Eye, EyeOff, Heart, ArrowLeft, CheckCircle } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -7,6 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { motion } from "framer-motion";
+import { signupUser } from "@/services/api";
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -19,6 +20,7 @@ const Signup = () => {
     password: "",
     confirmPassword: "",
   });
+  const navigate = useNavigate();
 
   const benefits = [
     "Free 14-day trial",
@@ -27,7 +29,7 @@ const Signup = () => {
     "HIPAA compliant & secure"
   ];
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (formData.password !== formData.confirmPassword) {
       alert("Passwords don't match!");
@@ -37,7 +39,22 @@ const Signup = () => {
       alert("Please agree to the terms and conditions");
       return;
     }
-    // TODO: Implement signup logic with JWT
+    try {
+      // API call
+      await signupUser({
+        email: formData.email,
+        password: formData.password,
+        age: 25, 
+        gender: "male"
+      });
+      
+      alert("Signup successful! Please log in.");
+      navigate("/login"); // Login page par redirect karein
+
+    } catch (error) {
+      console.error("Signup failed:", error);
+      alert("Signup failed. User may already exist.");
+    }
     console.log("Signup attempt:", formData);
   };
 
